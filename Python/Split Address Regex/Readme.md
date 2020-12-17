@@ -1,3 +1,5 @@
-This is also from my professional work, but it is a replication from Excel VBA.
-The purpose of this program is to split full address into different columns such as Building Name, Unit number, Street Number, name and type.
+The purpose of this program is to split the free text address into different components of addresses.
+This includes Unit number, street number, street name, street type.
 
+This program read excel file and split the address out into relevant columns, then save the file.
+In order to do that, the program uses Python Regex.
