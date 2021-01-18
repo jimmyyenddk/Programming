@@ -37,8 +37,8 @@ def SplitAddress(wsData, wsType):
         #-------------------------------------------------------------------------------------
         #Regex for Unit, and return the Unit out from the string
         UnitRegex=[]
-        UnitRegex.append(r"(U)(nit)?(\s+)?[0-9]+[A-Da-d]?")
-        UnitRegex.append("(N)(umber|o)?(\s+)?[0-9]+[A-Da-d]?")
+        UnitRegex.append(r"(U)(nit)?(\s+)?[0-9]+(\s[A-Da-d]\s)?")
+        UnitRegex.append("(N)(umber|o)?(\s+)?[0-9]+(\s[A-Da-d]\s)?")
         UnitRegex.append("[0-9]+[A-Da-d]?(\s+)?[/]")
         for item in UnitRegex:
             Unit = MatchedRegex(FullAdress, item)
@@ -97,8 +97,8 @@ def RemoveStr(FullStr, RemovedStr):
 
     #Get the string after the length of removed string if the match is in first position
     if IsFound == 0:
-        LeftStr = FullStr[len(RemovedStr):].strip()
-        ReturnStr = LeftStr
+        RightStr = FullStr[len(RemovedStr):].strip()
+        ReturnStr = RightStr
 
     #If not at the first position, need to break down to left and right, and then concatenate them
     if IsFound > 0:
