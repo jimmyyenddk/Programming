@@ -11,6 +11,7 @@ def get_url(stock,start_date,end_date):
     url="https://query1.finance.yahoo.com/v7/finance/download/{}?period1={}&period2={}&interval=1d&events=history&includeAdjustedClose=true".format(stock,start_date,end_date)
     return url
 
+
 def get_stock_price(stocklist):
     #This to create new file every time
 
