@@ -16,7 +16,8 @@ def get_stock_price(stocklist):
     #This to create new file every time
 
     start_date = "1514725200" #Unix for 01/01/2018 00:00:00 time stamp    
-    current_time = datetime.now(pytz.timezone("GMT")) #Change current GMT+11 Sydney time to GMT+0
+    #current_time = datetime.now(pytz.timezone("GMT")) #Change current GMT+11 Sydney time to GMT+0, no need anymore
+    current_time = datetime.now()
     end_date = int(time.mktime(current_time.timetuple())) #change to Unix time stamp
 
     filename = "AllShares.xlsx"
@@ -28,7 +29,11 @@ def get_stock_price(stocklist):
 
             #clean data
             stock_data = pd.read_csv(url) #get stock data based on url
-            stock_data.sort_index(ascending=False, inplace = True)      
+            stock_data.sort_index(ascending=False, inplace = True)
+
+            stock_data["Date"] = pd.to_datetime(stock_data["Date"], format ="%Y-%m-%d")#Change string type to datetime type
+            stock_data["Date"]= stock_data["Date"].dt.strftime("%d-%m-%Y")#change to dd-mm-yyyy format
+
             data_col =["Open","High","Low","Close","Adj Close"]
             stock_data[data_col] = stock_data[data_col].round(3)
             stock_data["ShareID"] = stock
