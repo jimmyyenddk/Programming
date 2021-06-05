@@ -37,7 +37,7 @@ def SplitAddress(wsData, wsType):
         #-------------------------------------------------------------------------------------
         #Regex for Unit, and return the Unit out from the string
         UnitRegex=[]
-        UnitRegex.append(r"(U)(nit)?(\s+)?[0-9]+(\s[A-Da-d]\s)?")
+        UnitRegex.append("(U)(nit)?(\s+)?[0-9]+(\s[A-Da-d]\s)?")
         UnitRegex.append("(N)(umber|o)?(\s+)?[0-9]+(\s[A-Da-d]\s)?")
         UnitRegex.append("[0-9]+[A-Da-d]?(\s+)?[/]")
         for item in UnitRegex:
@@ -48,7 +48,7 @@ def SplitAddress(wsData, wsType):
         FullAdress = RemoveStr(FullAdress, Unit).strip()
 
         #Remove the unnecessary / in the Unit
-        Unit = RemoveStr(Unit, r"/")
+        Unit = RemoveStr(Unit, r"/").strip()
 
         #-------------------------------------------------------------------------------------
         #Regex for Full Street
@@ -64,24 +64,24 @@ def SplitAddress(wsData, wsType):
 
         #Regex for Street Number
         StreetNoRegex = r"([0-9]+[\s]?[-]\s?)?[0-9]+[abAB]?"
-        StreetNo = MatchedRegex(FullStreet,StreetNoRegex)
+        StreetNo = MatchedRegex(FullStreet,StreetNoRegex).strip()
 
         #Regex for Street Name
         StreetNameRegex = r"[a-zA-Z\s]+(\s)?(?=" + StreetType + ")"
-        StreetName = MatchedRegex(FullStreet, StreetNameRegex)
+        StreetName = MatchedRegex(FullStreet, StreetNameRegex).strip()
 
         #-------------------------------------------------------------------------------------
         #Remove Full Street from Address is Building Name
-        Builing = RemoveStr(FullAdress, FullStreet)
+        Building = RemoveStr(FullAdress, FullStreet).strip()
         #Remove unnecessary comma in Building
-        CommaCount = Builing.count(",")
+        CommaCount = Building.count(",")
         while CommaCount!=0:
-            Builing=RemoveStr(Builing,",")
+            Building=RemoveStr(Building,",")
             CommaCount -= 1
 
         # -------------------------------------------------------------------------------------
         #Populate data into Excel
-        wsData.cell(currow, Col_Building).value = Builing
+        wsData.cell(currow, Col_Building).value = Building
         wsData.cell(currow, Col_Unit).value = Unit
         wsData.cell(currow, Col_StreetNo).value = StreetNo
         wsData.cell(currow, Col_StreetName).value = StreetName
