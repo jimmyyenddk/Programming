@@ -1,6 +1,10 @@
 import openpyxl as op
 import re
 
+
+# Orignal Data is from column A to E
+# The output column is from F to J
+
 ExcelFile = "./Split Address.xlsx"
 
 #This is the column index of Data in Excel
@@ -45,10 +49,10 @@ def SplitAddress(wsData, wsType):
             if Unit != "": break
 
         #Remove the matched Unit out of the Full Address
-        FullAdress = RemoveStr(FullAdress, Unit).strip()
+        FullAdress = RemoveStr(FullAdress, Unit)
 
         #Remove the unnecessary / in the Unit
-        Unit = RemoveStr(Unit, r"/").strip()
+        Unit = RemoveStr(Unit, r"/")
 
         #-------------------------------------------------------------------------------------
         #Regex for Full Street
@@ -64,15 +68,15 @@ def SplitAddress(wsData, wsType):
 
         #Regex for Street Number
         StreetNoRegex = r"([0-9]+[\s]?[-]\s?)?[0-9]+[abAB]?"
-        StreetNo = MatchedRegex(FullStreet,StreetNoRegex).strip()
+        StreetNo = MatchedRegex(FullStreet,StreetNoRegex)
 
         #Regex for Street Name
         StreetNameRegex = r"[a-zA-Z\s]+(\s)?(?=" + StreetType + ")"
-        StreetName = MatchedRegex(FullStreet, StreetNameRegex).strip()
+        StreetName = MatchedRegex(FullStreet, StreetNameRegex)
 
         #-------------------------------------------------------------------------------------
         #Remove Full Street from Address is Building Name
-        Building = RemoveStr(FullAdress, FullStreet).strip()
+        Building = RemoveStr(FullAdress, FullStreet)
         #Remove unnecessary comma in Building
         CommaCount = Building.count(",")
         while CommaCount!=0:
@@ -81,11 +85,11 @@ def SplitAddress(wsData, wsType):
 
         # -------------------------------------------------------------------------------------
         #Populate data into Excel
-        wsData.cell(currow, Col_Building).value = Building
-        wsData.cell(currow, Col_Unit).value = Unit
-        wsData.cell(currow, Col_StreetNo).value = StreetNo
-        wsData.cell(currow, Col_StreetName).value = StreetName
-        wsData.cell(currow, Col_StreetType).value = StreetType
+        wsData.cell(currow, Col_Building).value = Building.strip()
+        wsData.cell(currow, Col_Unit).value = Unit.strip()
+        wsData.cell(currow, Col_StreetNo).value = StreetNo.strip()
+        wsData.cell(currow, Col_StreetName).value = StreetName.strip()
+        wsData.cell(currow, Col_StreetType).value = StreetType.strip()
 
     wb.save(ExcelFile)
 
